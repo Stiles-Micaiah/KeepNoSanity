@@ -8,61 +8,75 @@ using keepr.Repositories;
 
 namespace keepr.Repositories
 {
-    public class KeepRepository
+  public class KeepRepository
+  {
+    private readonly IDbConnection _db;
+    public KeepRepository(IDbConnection db)
     {
-        private readonly IDbConnection _db;
-        public KeepRepository(IDbConnection db)
-        {
-            _db = db;
-        }
-        public IEnumerable<Keep> GetAll()
-        {
-            return _db.Query<Keep>("SELECT * FROM keeps");
+      _db = db;
+    }
+    public IEnumerable<Keep> GetAll()
+    {
+      return _db.Query<Keep>("SELECT * FROM keeps");
 
-        }
+    }
 
-        public Keep GetById(int Id)
-        {
-            string query = @"
+    public Keep GetById(int Id)
+    {
+      string query = @"
             SELECT * FROM keeps WHERE id = @Id
             ";
 
-            Keep data = _db.QueryFirstOrDefault(query, new { Id });
-            if (data == null) throw new Exception("Nothing to return for your search!");
-            return data;
+      Keep data = _db.QueryFirstOrDefault<Keep>(query, new { Id });
+      if (data == null) throw new Exception("Nothing to return for your search!");
+      return data;
 
 
-        }
+    }
 
-        public Keep Create(Keep data)
-        {
-            string query = @"
+    public Keep Create(Keep data)
+    {
+      string query = @"
             INSERT INTO keeps (name, description, userId, img)
-            VALUES @Name, @Description, @UserId, @Image
-            WHERE id = @Id;
+            VALUES (@Name,  @Description, @UserId, @Image);
             SELECT LAST_INSERT_ID();
             ";
-            data = _db.ExecuteScalar<Keep>(query, data);
-            if (data == null) throw new Exception("Not able to create from input!");
-            return data;
-        }
+      int id = _db.ExecuteScalar<int>(query, data);
+      //   if (data == null) throw new Exception("Not able to create from input!");
+      data.Id = id;
+      return data;
+    }
 
-        public Keep Update(Keep data)
-        {
-            string query = @"
+    public Keep Update(Keep data)
+    {
+      string query = @"
             UPDATE keeps 
             SET
-            isPrivate = 1
+            name = @Name,
+            description = @Description,
+            userId = @UserId,
+            img = @Image,
+            isPrivate = @IsPrivate
             WHERE id = @Id;
-            SELECT LAST_UPDATE();
             ";
-            int affectedRows =  _db.Execute(query, data);
-            if(affectedRows != 1 ) throw new Exception("Not good things happened...");
-            return data;
-        }
 
-       
+      _db.QueryFirstOrDefault<Keep>(query, data);
+      return data;
 
-        
+
+      // return data;
     }
+
+    internal string Delete(int Id)
+    {
+      string query = @"
+      DELETE FROM keeps WHERE id = @Id;
+      ";
+
+      int affectedRows = _db.Execute(query, new { Id });
+      if (affectedRows < 1) throw new Exception("No good things happened...");
+      if (affectedRows > 1) throw new Exception("Not good things happened...");
+      return "Keep Deleted";
+    }
+  }
 }

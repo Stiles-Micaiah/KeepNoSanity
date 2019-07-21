@@ -30,7 +30,7 @@ namespace keepr.Controllers
       catch (Exception e)
       {
 
-        return BadRequest(e);
+        return BadRequest(e.Message);
       }
     }
 
@@ -68,24 +68,31 @@ namespace keepr.Controllers
     [HttpPut("{id}")]
     public ActionResult<Keep> Put(int id, [FromBody] Keep data)
     {
-      return Ok(_Repo.Update(data));
+      try
+      {
+        return Ok(_Repo.Update(data));
+      }
+      catch (Exception e)
+      {
+        return BadRequest(e.Message);
+      }
     }
 
     // DELETE api/values/5
-    // [HttpDelete("{id}")]
-    // public string Delete(int id)
-    // {
-    //   try
-    //   {
-    //     _Repo.Delete(id);
-    //     return "Account deleted!";
-    //   }
-    //   catch (Exception e)
-    //   {
+    [HttpDelete("{id}")]
+    public string Delete(int id)
+    {
+      try
+      {
+        return _Repo.Delete(id);
 
-    //     return $"Error Message{e.Message}";
-    //   }
+      }
+      catch (Exception e)
+      {
 
-    // }
+        return $"Error Message{e.Message}";
+      }
+
+    }
   }
 }
