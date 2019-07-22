@@ -67,13 +67,13 @@ namespace keepr.Repositories
       // return data;
     }
 
-    internal string Delete(int Id)
+    internal string Delete(int Id, string UserId)
     {
       string query = @"
-      DELETE FROM keeps WHERE id = @Id;
+      DELETE FROM keeps WHERE id = @Id AND userId = @UserId;
       ";
 
-      int affectedRows = _db.Execute(query, new { Id });
+      int affectedRows = _db.Execute(query, new { Id, UserId });
       if (affectedRows < 1) throw new Exception("No good things happened...");
       if (affectedRows > 1) throw new Exception("Not good things happened...");
       return "Keep Deleted";

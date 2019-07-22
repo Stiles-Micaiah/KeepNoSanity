@@ -80,11 +80,11 @@ namespace keepr.Controllers
 
     // DELETE api/values/5
     [HttpDelete("{id}")]
-    public string Delete(int id)
+    public string Delete(int id, [FromBody] string UserId)
     {
       try
       {
-        return _Repo.Delete(id);
+        return _Repo.Delete(id, UserId);
 
       }
       catch (Exception e)
