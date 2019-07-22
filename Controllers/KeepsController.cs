@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using keepr.Models;
 using keepr.Repositories;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace keepr.Controllers
 {
@@ -20,6 +22,7 @@ namespace keepr.Controllers
       _Repo = Repo;
     }
     // GET api/values
+    [Authorize]
     [HttpGet]
     public ActionResult<IEnumerable<Keep>> Get()
     {
@@ -35,6 +38,7 @@ namespace keepr.Controllers
     }
 
     // GET api/values/5
+    [Authorize]
     [HttpGet("{id}")]
     public ActionResult<Keep> Get(int id)
     {
@@ -50,11 +54,13 @@ namespace keepr.Controllers
     }
 
     // POST api/values
+    [Authorize]
     [HttpPost]
     public ActionResult<Keep> Post([FromBody] Keep data)
     {
       try
       {
+        data.UserId = HttpContext.User.FindFirstValue("Id");
         return Ok(_Repo.Create(data));
       }
       catch (Exception e)
@@ -65,11 +71,13 @@ namespace keepr.Controllers
     }
 
     // PUT api/values/5
+    [Authorize]
     [HttpPut("{id}")]
     public ActionResult<Keep> Put(int id, [FromBody] Keep data)
     {
       try
       {
+        data.UserId = HttpContext.User.FindFirstValue("Id");
         return Ok(_Repo.Update(data));
       }
       catch (Exception e)
@@ -79,12 +87,14 @@ namespace keepr.Controllers
     }
 
     // DELETE api/values/5
+    [Authorize]
     [HttpDelete("{id}")]
-    public string Delete(int id, [FromBody] string UserId)
+    public string Delete(int id)
     {
       try
       {
-        return _Repo.Delete(id, UserId);
+        var userId = HttpContext.User.FindFirstValue("Id");
+        return _Repo.Delete(id, userId);
 
       }
       catch (Exception e)

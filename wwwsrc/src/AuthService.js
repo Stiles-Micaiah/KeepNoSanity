@@ -1,5 +1,5 @@
 import Axios from 'axios'
-let baseUrl = location.host.includes('localhost') ? '//localhost:5000/' : '/'
+let baseUrl = location.host.includes('localhost') ? '//localhost:5000/' : '//168.192.2.190:5000'
 
 let auth = Axios.create({
   baseURL: baseUrl + "account/",
