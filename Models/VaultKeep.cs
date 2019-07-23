@@ -12,7 +12,7 @@ namespace keepr.Models
     public int KeepId { get; set; }
     public DateTime Created_At { get; set; }
     public DateTime Updated_At { get; set; }
-    [Required]
+    // [Required]
     public string UserId { get; set; }
   }
 }

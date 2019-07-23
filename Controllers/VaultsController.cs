@@ -10,7 +10,7 @@ using System.Security.Claims;
 
 namespace keepr.Controllers
 {
-  [Route("api/[controller]")]
+  [Route("api/users")]
   [ApiController]
   public class VaultsController : ControllerBase
   {
@@ -23,7 +23,7 @@ namespace keepr.Controllers
     }
     // GET api/values
     [Authorize]
-    [HttpGet("{user}")]
+    [HttpGet("vaults")]
     public ActionResult<IEnumerable<Vault>> Get()
     {
       try
@@ -40,7 +40,7 @@ namespace keepr.Controllers
 
     // GET api/values/5
     [Authorize]
-    [HttpPost("{user}")]
+    [HttpPost("vaults")]
     public ActionResult<Vault> Post([FromBody] Vault data)
     {
       try
@@ -57,11 +57,13 @@ namespace keepr.Controllers
 
     // POST api/values
     [Authorize]
-    [HttpGet("{user}/vault")]
-    public ActionResult<Vault> Get([FromBody] VaultKeep data)
+    [HttpGet("vaults/{id}")]
+    public ActionResult<Vault> Get(int id)
     {
       try
       {
+        VaultKeep data = new VaultKeep();
+        data.VaultId = id;
         data.UserId = HttpContext.User.FindFirstValue("Id");
         return Ok(_Repo.OpenVault(data));
       }
@@ -74,12 +76,13 @@ namespace keepr.Controllers
 
     // PUT api/values/5
     [Authorize]
-    [HttpPost("{user}/vault")]
+    [HttpPost("vaults/vk/{id}")]
     public ActionResult<Vault> Post(int id, [FromBody] VaultKeep data)
     {
       try
       {
         data.UserId = HttpContext.User.FindFirstValue("Id");
+        data.VaultId = id;
         return Ok(_Repo.AddToVault(data));
       }
       catch (Exception e)
@@ -89,12 +92,16 @@ namespace keepr.Controllers
     }
     // PUT api/values/5
     [Authorize]
-    [HttpDelete("{user}/vault/{id}")]
-    public string Put(int id)
+    [HttpDelete("vaults/vk/{id}")]
+    public string Put(int id, [FromBody] DataModel infoData)
     {
       try
       {
-        return _Repo.RemoveFromVault(id);
+        DataModel data = new DataModel();
+        data.IntIdAlt = id; //vault
+        // data.UserId = HttpContext.User.FindFirstValue("Id");
+        data.IntId = infoData.IntId; //keep
+        return _Repo.RemoveFromVault(data);
 
       }
       catch (Exception e)
@@ -106,7 +113,7 @@ namespace keepr.Controllers
 
     // DELETE api/values/5
     [Authorize]
-    [HttpDelete("{user}/{id}")]
+    [HttpDelete("vaults/{id}")]
     public string Delete(int id)
     {
       try
