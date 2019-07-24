@@ -17,18 +17,22 @@ let api = Axios.create({
 export default new Vuex.Store({
   state: {
     user: {},
-    posts: []
+    posts: [],
+    vaults: []
   },
   mutations: {
     setUser(state, user) {
-      state.user = user
+      state.user = user;
     },
     resetState(state) {
       //clear the entire state object of user data
-      state.user = {}
+      state.user = {};
     },
     setPostLine(state, posts = []) {
-      state.posts = posts
+      state.posts = posts;
+    },
+    setVaults(state, data) {
+      state.vaults = data;
     }
   },
   actions: {
@@ -72,6 +76,26 @@ export default new Vuex.Store({
         .then(res => {
           console.log(res);
           dispatch('getPosts')
+        })
+        .catch(err => {
+          console.error(err);
+        })
+    },
+    postToApi({ commit, dispatch }, data) {
+      api.post("keeps", data)
+        .then(res => {
+          console.log("postToApi output", res);
+          dispatch('getPosts');
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    },
+    getVaults({ commit, dispatch }) {
+      api.get('users/vaults')
+        .then(res => {
+          commit('setVaults', res.data);
+          console.log("get vaults output", res);
         })
         .catch(err => {
           console.error(err);

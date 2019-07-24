@@ -33,7 +33,6 @@ namespace keepr.Controllers
       }
       catch (Exception e)
       {
-
         return BadRequest(e.Message);
       }
     }
@@ -69,7 +68,6 @@ namespace keepr.Controllers
       }
       catch (Exception e)
       {
-
         return BadRequest(e.Message);
       }
     }
