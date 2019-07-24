@@ -55,9 +55,9 @@ namespace keepr.Repositories
             name = @Name,
             description = @Description,
             userId = @UserId,
-            img = @Image,
+            img = @Img,
             isPrivate = @IsPrivate
-            WHERE id = @Id;
+            WHERE id = @Id AND userId =  @UserId;
             ";
 
       _db.QueryFirstOrDefault<Keep>(query, data);

@@ -77,6 +77,7 @@ namespace keepr.Controllers
     {
       try
       {
+        data.Id = id;
         data.UserId = HttpContext.User.FindFirstValue("Id");
         return Ok(_Repo.Update(data));
       }

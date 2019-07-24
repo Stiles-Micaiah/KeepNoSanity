@@ -60,13 +60,22 @@ export default new Vuex.Store({
         console.warn(e.message)
       }
     },
-    getPosts({commit, dispatch}) {
+    getPosts({ commit, dispatch }) {
       api.get('keeps')
-      .then(res => {
-        commit('setPostLine', res.data)
-        console.log("GetPosts response", res)
-      })
+        .then(res => {
+          commit('setPostLine', res.data)
+          console.log("GetPosts response", res)
+        })
     },
-    deletePost(){}
+    deletePost({ commit, dispatch }, id) {
+      api.delete('keeps/' + id)
+        .then(res => {
+          console.log(res);
+          dispatch('getPosts')
+        })
+        .catch(err => {
+          console.error(err);
+        })
+    }
   }
 })

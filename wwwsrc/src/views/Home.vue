@@ -6,14 +6,17 @@
     <div style="height: auto; margin: 25px;" class="card card-803 " v-for="post in posts" :key="post.id">
       <h3 class="title-color card-header">{{post.name}}</h3>
       <h6 class="mix-a-lot">Post By:{{post.userId}}</h6>
-      <div class="card-body">
+      <div class="card-body card-body-with-image">
         <p class=" body-color card-text">{{post.description}}</p>
-      <img style="height: auto; width: 100%; display: block;" :src="post.img" alt="Card image">
+      <img class="card-body-img" :src="post.img" alt="Card image">
       </div>
 
       <div class="card-body">
-        <button class="btn btn-info rounded-pill ">You like this</button>
-        <button @click="deletePost(post._id)" class="btn btn-danger rounded-pill ">You like this, but in Red</button>
+        <div v-if="user.id != post.userId">
+        <button class="btn btn-info rounded-pill ">Like</button>
+        <button class="btn btn-info rounded-pill ">Dislike</button>
+        </div>
+        <button v-else @click="deletePost(post.id)" class="btn btn-danger rounded-pill ">Delete</button>
       </div>
       <div style="-webkit-text-fill-color: blueviolet;" class="card-footer text-muted">
         {{post.user}} but in Purple
@@ -33,7 +36,7 @@ this.$store.dispatch('getPosts');
         return this.$store.state.user;
       },
       posts() {
-        return this.$store.state.posts;
+        return this.$store.state.posts.reverse();
       }
     },
     methods: {
@@ -53,7 +56,19 @@ this.$store.dispatch('getPosts');
     max-width: 100%;
     margin-right: auto !important;
     margin-left: auto !important;
-    width: 75%;
+    width: 50%;
+  }
+  .card-body-with-image {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .card-body-img{
+    /* display: unset; */
+    height: auto;
+    width: auto;
+    max-height: 100%;
+    max-width: 100%;
   }
 
   .card,
