@@ -110,4 +110,17 @@
 </style>
 
  
+<style>
+body {
+    background: none;
+  }
+  html {
+    background-image: url('https://www.pixelstalk.net/wp-content/uploads/2016/03/Desktop-Neon-Wallpaper-HD-1920x1080.jpg');
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-attachment: fixed;
+  }
+</style>
 
