@@ -67,6 +67,9 @@
             }
           };
         },
+        mounted() {
+          if(!user) router.push({ name: "home" });
+        },
     computed: {
       user() {
         return this.$store.state.user;

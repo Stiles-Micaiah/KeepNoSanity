@@ -30,7 +30,7 @@ namespace keepr.Repositories
       return _db.Query<Vault>("SELECT * FROM vaults WHERE userId = @UserId", new { UserId });
     }
 
-    public IEnumerable<VaultKeep> OpenVault(VaultKeep data)
+    public IEnumerable<Keep> OpenVault(VaultKeep data)
     {
       string query = @"
        SELECT * FROM vaultkeeps vk
@@ -38,7 +38,7 @@ namespace keepr.Repositories
        WHERE (vaultId = @VaultId AND vk.userId = @UserId)
       ";
 
-      return _db.Query<VaultKeep>(query, data);
+      return _db.Query<Keep>(query, data);
     }
 
     public VaultKeep AddToVault(VaultKeep data)

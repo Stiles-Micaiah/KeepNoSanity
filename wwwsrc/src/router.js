@@ -1,23 +1,30 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from "vue";
+import Router from "vue-router";
 // @ts-ignore
-import Home from './views/Home.vue'
+import Home from "./views/Home.vue";
 // @ts-ignore
-import Login from './views/Login.vue'
+import Login from "./views/Login.vue";
+import VaultPost from "./views/VaultPost.vue";
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'home',
+      path: "/",
+      name: "home",
       component: Home
     },
     {
-      path: '/login',
-      name: 'login',
+      path: "/login",
+      name: "login",
       component: Login
+    },
+    {
+      path: "/vault/:id",
+      name: "vault",
+      props: true,
+      component: VaultPost
     }
   ]
-})
+});

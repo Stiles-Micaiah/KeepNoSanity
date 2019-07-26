@@ -31,8 +31,9 @@
         </div>
         <button v-else @click="deletePost(post.id)" class="btn btn-danger rounded-pill">Delete</button>
       </div>
-      <div style="-webkit-text-fill-color: blueviolet;" class="card-footer text-muted">{{post.user}} but in Purple</div>
+      <div style="-webkit-text-fill-color: blueviolet;" class="card-footer text-muted">{{post.userId}} but in Purple</div>
     </div>
+    
     <Vaults />
   </div>
 </template>
@@ -53,6 +54,7 @@
     },
     mounted() {
       this.$store.dispatch("getPosts");
+      if(!user) router.push({ name: "home" });
     },
     computed: {
       user() {
