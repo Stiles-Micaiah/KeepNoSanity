@@ -144,6 +144,19 @@ export default new Vuex.Store({
           console.log("users/vaults/vk/" + data.vkId, data);
           console.error(err);
         });
+    },
+    addVaultKeep({ commit, dispatch }, data) {
+      api
+        .post("users/vaults/vk/" + data.vkId, data.IntId)
+        .then(res => {
+          // commit("setVaultPosts", res.data);
+          console.log("remove vault output", res, res.data);
+          dispatch('openVault', data.vkId);
+        })
+        .catch(err => {
+          console.log("users/vaults/vk/" + data.vkId, data);
+          console.error(err);
+        });
     }
   }
 });

@@ -29,8 +29,10 @@
           <button @click="like(post.id, true)" class="btn btn-info btn-sm">Like</button>
           {{post.views}}
           <button @click="dislike(post.id, false)" class="btn btn-info btn-sm">Dislike</button>
+          
         </div>
         <button v-else @click="deletePost(post.id)" class="btn btn-danger rounded-pill">Delete</button>
+        <button @click="addToVault(post.id)" class="btn btn-info btn-sm">addToVault</button>
       </div>
       <div style="-webkit-text-fill-color: blueviolet;" class="card-footer text-muted">{{post.userId}} but in Purple</div>
     </div>
@@ -87,6 +89,13 @@
       },
       like(id, isLike) {
         this.$store.dispatch('likeDislike', id, isLike);
+      },
+      addToVault(id) {
+        let data = {
+          vkId: 3,
+          IntId : id
+        }
+        this.$store.dispatch('addVaultKeep', data)
       }
       // logout() {
       //   this.$store.dispatch("logout");
