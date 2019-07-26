@@ -81,7 +81,18 @@ export default new Vuex.Store({
       api
         .delete("keeps/" + id)
         .then(res => {
-          console.log(res);
+          console.log('deletePost',res);
+          dispatch("getPosts");
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    },
+    likeDislike({ commit, dispatch }, id, isLike) {
+      api
+        .put("keeps/" + id, isLike)
+        .then(res => {
+          console.log('likeDislike',res);
           dispatch("getPosts");
         })
         .catch(err => {
@@ -123,7 +134,7 @@ export default new Vuex.Store({
     },
     removeVaultKeep({ commit, dispatch }, data) {
       api
-        .delete("users/vaults/vk/" + data.vkId, data)
+        .delete("users/vaults/vk/" + data.vkId, data.IntId)
         .then(res => {
           // commit("setVaultPosts", res.data);
           console.log("remove vault output", res, res.data);

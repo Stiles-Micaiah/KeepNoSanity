@@ -66,6 +66,23 @@ namespace keepr.Repositories
 
       // return data;
     }
+    public Keep Like(bool isLike)
+    {
+      data.likeValue = 0
+
+      string query = @"
+            UPDATE keeps 
+            SET
+            views = views + @likeValue
+            WHERE id = @Id AND userId =  @UserId;
+            ";
+
+      _db.QueryFirstOrDefault<Keep>(query, data);
+      return data;
+
+
+      // return data;
+    }
 
     internal string Delete(int Id, string UserId)
     {

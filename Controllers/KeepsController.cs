@@ -86,6 +86,22 @@ namespace keepr.Controllers
         return BadRequest(e.Message);
       }
     }
+    // PUT api/values/5
+    [Authorize]
+    [HttpPut("{id}/like")]
+    public ActionResult<T> Put(int id,bool isLike)
+    {
+      try
+      {
+        if(isLike) return Ok(_Repo.Like(true));
+        if(!isLike) return Ok(_Repo.Like(false));
+return BadRequest("no like action");
+      }
+      catch (Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
 
     // DELETE api/values/5
     [Authorize]

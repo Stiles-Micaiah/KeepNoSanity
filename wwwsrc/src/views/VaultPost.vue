@@ -41,7 +41,7 @@
     methods: {
       removeVK(id) {
         let data = {
-          intId: id,
+          IntId: id,
           vkId: this.id
         };
         this.$store.dispatch("removeVaultKeep", data);

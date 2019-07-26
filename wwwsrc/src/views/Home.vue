@@ -25,9 +25,10 @@
       </div>
 
       <div class="card-body">
-        <div v-if="user.id != post.userId">
-          <button class="btn btn-info rounded-pill">Like</button>
-          <button class="btn btn-info rounded-pill">Dislike</button>
+        <div v-if="user.id != post.userId" class="justify-content-between">
+          <button @click="like(post.id, true)" class="btn btn-info btn-sm">Like</button>
+          {{post.views}}
+          <button @click="dislike(post.id, false)" class="btn btn-info btn-sm">Dislike</button>
         </div>
         <button v-else @click="deletePost(post.id)" class="btn btn-danger rounded-pill">Delete</button>
       </div>
@@ -53,12 +54,12 @@
       };
     },
     mounted() {
-      alert("ninjas");
+      // alert("ninjas");
       this.$store.dispatch("getPosts");
-      if(!user) router.push({ name: "home" });
+      if(!user) router.push({ name: "login" });
     },
     created() {
-      if(!user) router.push({ name: "home" });
+      if(!user) router.push({ name: "login" });
     },
     computed: {
       user() {
@@ -83,6 +84,9 @@
           // .then(this.clearForm());
           this.clearForm();
         }
+      },
+      like(id, isLike) {
+        this.$store.dispatch('likeDislike', id, isLike);
       }
       // logout() {
       //   this.$store.dispatch("logout");

@@ -91,14 +91,14 @@ namespace keepr.Controllers
     // PUT api/values/5
     [Authorize]
     [HttpDelete("vaults/vk/{id}")]
-    public string Put(int id, [FromBody] DataModel infoData)
+    public string Put(int id, intId)
     {
       try
       {
         DataModel data = new DataModel();
         data.IntIdAlt = id; //vault
         // data.UserId = HttpContext.User.FindFirstValue("Id");
-        data.IntId = infoData.IntId; //keep
+        data.IntId = intId; //keep
         return _Repo.RemoveFromVault(data);
 
       }
