@@ -1,38 +1,22 @@
 <template>
-  <div class="VaultPost">
-    <div
-      style="height: auto; margin: 25px;"
-      class="card card-803"
-      v-for="post in vaultposts"
-      :key="post.id"
-    >
-      <h3 class="title-color card-header">{{ post.name }}</h3>
-      <h6 class="mix-a-lot">Post By:{{ post.userId }}</h6>
-      <div class="card-body card-body-with-image">
-        <p class="body-color card-text">{{ post.description }}</p>
-        <div v-if="post.img" class="card-body-img">
-          <img :src="post.img" alt="Card image" />
-        </div>
-      </div>
-
-      <div class="card-body">
-        <div v-if="user.id != post.userId">
-          <button class="btn btn-info rounded-pill">Like</button>
-          <button class="btn btn-info rounded-pill">Dislike</button>
-        </div>
-        <button
-          v-else
-          @click="deletePost(post.id)"
-          class="btn btn-danger rounded-pill"
-        >
-          Delete
-        </button>
-      </div>
+  <!-- vault-keep-group -->
+  <div class="VaultPost container-fluid">
+    <div class="row">
       <div
-        style="-webkit-text-fill-color: blueviolet;"
-        class="card-footer text-muted"
+        class="card col-2"
+        v-for="post in vaultposts"
+        :key="post.id"
+        style="width: 18rem;"
       >
-        {{ post.userId }} but in Purple
+        <img v-if="post.img" :src="post.img" class="card-img-top" />
+        <div v-else style=" width:100%; height: 33% "></div>
+        <div class="card-body">
+          <h5 class="card-title title-color">{{ post.name }}</h5>
+          <p class="card-text mix-a-lot">{{ post.description }}</p>
+          <button @click="removeVK(post.id)" class="btn btn-danger">
+            Remove
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -53,8 +37,40 @@
       vaultposts() {
         return this.$store.state.vaultPosts;
       }
+    },
+    methods: {
+      removeVK(id) {
+        let data = {
+          intId: id,
+          vkId: this.id
+        };
+        this.$store.dispatch("removeVaultKeep", data);
+      }
     }
   };
 </script>
 
-<style scoped></style>
+<style scoped>
+  .vault-keep-group {
+    display: inline-block;
+  }
+  .card,
+  .card > * {
+    background-color: rgba(85, 1, 163, 0.226);
+  }
+  card > img {
+    width: 100%;
+    height: auto;
+  }
+  .mix-a-lot {
+    -webkit-text-fill-color: deepskyblue;
+  }
+
+  .title-color {
+    -webkit-text-fill-color: cyan;
+  }
+
+  .body-color {
+    -webkit-text-fill-color: turquoise;
+  }
+</style>

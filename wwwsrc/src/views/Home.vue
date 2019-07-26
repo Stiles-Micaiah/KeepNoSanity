@@ -53,7 +53,11 @@
       };
     },
     mounted() {
+      alert("ninjas");
       this.$store.dispatch("getPosts");
+      if(!user) router.push({ name: "home" });
+    },
+    created() {
       if(!user) router.push({ name: "home" });
     },
     computed: {
