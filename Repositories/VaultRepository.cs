@@ -64,12 +64,13 @@ namespace keepr.Repositories
       return "vaultkeep Deleted";
     }
 
-    public string DeleteVault(int Id)
+    public string DeleteVault(int Id,string userId)
     {
+
       string query = @"
-      DELETE FROM vaults WHERE id = @Id;
+      DELETE FROM vaults WHERE id = @Id AND userID = @UserId;
       ";
-      int affectedRows = _db.Execute(query, new { Id });
+      int affectedRows = _db.Execute(query, new { Id, userId });
       if (affectedRows < 1) throw new Exception("No good things happened...");
       if (affectedRows > 1) throw new Exception("Not good things happened...");
       return "vault Deleted";
