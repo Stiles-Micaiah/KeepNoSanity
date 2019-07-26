@@ -81,18 +81,18 @@ export default new Vuex.Store({
       api
         .delete("keeps/" + id)
         .then(res => {
-          console.log('deletePost',res);
+          console.log('deletePost', res);
           dispatch("getPosts");
         })
         .catch(err => {
           console.error(err);
         });
     },
-    likeDislike({ commit, dispatch }, id, isLike) {
+    likeDislike({ commit, dispatch }, data) {
       api
-        .put("keeps/" + id, isLike)
+        .put("keeps/" + data.id + "/like", data)
         .then(res => {
-          console.log('likeDislike',res);
+          console.log('likeDislike', res);
           dispatch("getPosts");
         })
         .catch(err => {
@@ -134,10 +134,22 @@ export default new Vuex.Store({
     },
     removeVaultKeep({ commit, dispatch }, data) {
       api
-        .delete("users/vaults/vk/" + data.vkId, data.IntId)
+        .put("users/vaults/vk/" + data.VaultId, data)
+        .then(res => {
+          console.log("remove vault output", res, "res.data", res.data);
+          dispatch('openVault', data.VaultId);
+        })
+        .catch(err => {
+          console.log("users/vaults/vk/" + data.VaultId, data);
+          console.error(err);
+        });
+    },
+    addVaultKeep({ commit, dispatch }, data) {
+      api
+        .post("users/vaults/vk/" + data.vkId, data)
         .then(res => {
           // commit("setVaultPosts", res.data);
-          console.log("remove vault output", res, res.data);
+          console.log("addToVault output", res, "res.data", res.data);
           dispatch('openVault', data.vkId);
         })
         .catch(err => {
@@ -145,18 +157,25 @@ export default new Vuex.Store({
           console.error(err);
         });
     },
-    addVaultKeep({ commit, dispatch }, data) {
-      api
-        .post("users/vaults/vk/" + data.vkId, data.IntId)
+    deleteVault({ commit, dispatch }, id) {
+      api.delete('users/vaults/' + id)
         .then(res => {
-          // commit("setVaultPosts", res.data);
-          console.log("remove vault output", res, res.data);
-          dispatch('openVault', data.vkId);
+          dispatch('getVaults');
+          console.log('delVault output', res);
         })
         .catch(err => {
-          console.log("users/vaults/vk/" + data.vkId, data);
           console.error(err);
-        });
+        })
+    },
+    postVaultToApi({ commit, dispatch }, data) {
+      api.post('users/vaults', data)
+        .then(res => {
+          dispatch('getVaults');
+          console.log('postVaultToApi output', res);
+        })
+        .catch(err => {
+          console.error(err);
+        })
     }
   }
 });

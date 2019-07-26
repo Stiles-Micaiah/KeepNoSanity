@@ -9,5 +9,8 @@ namespace keepr.Models
         public string StrAlt {get;set;}
         public string StringId {get;set;}
         public string StringIdAlt {get;set;}
+        public bool Bool {get;set;}
+        public string BoolAlt {get;set;}
+        public object Obj {get;set;}
     }
 }

@@ -53,10 +53,10 @@ namespace keepr.Repositories
       return data;
     }
 
-    public string RemoveFromVault(DataModel data)
+    public string RemoveFromVault(VaultKeep data)
     {
       string query = @"
-      DELETE FROM vaultkeeps WHERE keepId = @IntId AND vaultId = @IntIdAlt;
+      DELETE FROM vaultkeeps WHERE keepId = @KeepId AND vaultId = @VaultId;
       ";
       int affectedRows = _db.Execute(query, data);
       if (affectedRows < 1) throw new Exception("No good things happened...");

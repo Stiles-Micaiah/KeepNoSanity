@@ -13,7 +13,7 @@
         rows="3" v-model="newPost.Description"></textarea>
       <button class="btn btn-info btn-sm" type="submit">Post</button>
     </form>
-
+<router-link v-if="user.id" class="btn btn-primary float-left" to="/createvault" style="margin-right: -4vw;">Create Vault</router-link>
     <div style="height: auto; margin: 25px;" class="card card-803" v-for="post in posts" :key="post.id">
       <h3 class="title-color card-header">{{post.name}}</h3>
       <h6 class="mix-a-lot">Post By:{{post.userId}}</h6>
@@ -28,15 +28,27 @@
         <div v-if="user.id != post.userId" class="justify-content-between">
           <button @click="like(post.id, true)" class="btn btn-info btn-sm">Like</button>
           {{post.views}}
-          <button @click="dislike(post.id, false)" class="btn btn-info btn-sm">Dislike</button>
-          
+          <button @click="like(post.id, false)" class="btn btn-info btn-sm">Dislike</button>
+
         </div>
         <button v-else @click="deletePost(post.id)" class="btn btn-danger rounded-pill">Delete</button>
-        <button @click="addToVault(post.id)" class="btn btn-info btn-sm">addToVault</button>
+
+        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+          <div class="btn-group" role="group">
+            <button id="btnGroupDrop2" type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">Add To Vault</button>
+            <div class="dropdown-menu" aria-labelledby="btnGroupDrop2">
+              <a v-for="vault in vaults" :key="vault.id" class="dropdown-item"
+                @click="addToVault(post.id, vault.id)">{{vault.name}}</a>
+            </div>
+          </div>
+        </div>
+
       </div>
-      <div style="-webkit-text-fill-color: blueviolet;" class="card-footer text-muted">{{post.userId}} but in Purple</div>
+      <div style="-webkit-text-fill-color: blueviolet;" class="card-footer text-muted">{{post.userId}} but in Purple
+      </div>
     </div>
-    
+
     <Vaults />
   </div>
 </template>
@@ -57,15 +69,19 @@
     },
     mounted() {
       // alert("ninjas");
+      // if (!user) router.push({ name: "login" });
       this.$store.dispatch("getPosts");
-      if(!user) router.push({ name: "login" });
+      this.$store.dispatch('getVaults');
     },
     created() {
-      if(!user) router.push({ name: "login" });
+      // if (!user) router.push({ name: "login" });
     },
     computed: {
       user() {
         return this.$store.state.user;
+      },
+      vaults() {
+        return this.$store.state.vaults;
       },
       posts() {
         return this.$store.state.posts.reverse();
@@ -88,12 +104,16 @@
         }
       },
       like(id, isLike) {
-        this.$store.dispatch('likeDislike', id, isLike);
-      },
-      addToVault(id) {
         let data = {
-          vkId: 3,
-          IntId : id
+          Bool: isLike,
+          id: id
+        }
+        this.$store.dispatch('likeDislike', data);
+      },
+      addToVault(PostId, VaultId) {
+        let data = {
+          vkId: VaultId,
+          KeepId: PostId
         }
         this.$store.dispatch('addVaultKeep', data)
       }
@@ -109,6 +129,23 @@
 
 
 <style scoped>
+  .dropdown-menu {
+    background-image: linear-gradient(to top right,
+        rgba(195, 0, 255, 0.473),
+        rgb(0, 255, 221, 0.473));
+    background-color: #00000000;
+  }
+
+  .dropdown-item {
+    -webkit-text-fill-color: cyan;
+  }
+
+  .dropdown-item:hover {
+    color: black;
+    -webkit-text-fill-color: red;
+    background-color: #000000;
+  }
+
   .post-new {
     /* height: 18vh; */
     display: grid;
@@ -117,8 +154,8 @@
     margin-left: auto;
     width: 30vw !important;
     background-image: linear-gradient(to top right,
-        rgba(195, 0, 255, 0.473),
-        rgb(0, 255, 221, 0.473));
+        rgba(195, 0, 255, 0.219),
+        rgb(0, 255, 221, 0.219)) !important;
   }
 
   .post-new>label {
@@ -163,7 +200,8 @@
     background-color: rgba(85, 1, 163, 0.226);
   }
 
-  .mix-a-lot {
+  .mix-a-lot,
+  .dropdown-item {
     -webkit-text-fill-color: deepskyblue;
   }
 

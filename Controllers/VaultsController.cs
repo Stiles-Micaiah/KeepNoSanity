@@ -90,17 +90,13 @@ namespace keepr.Controllers
     }
     // PUT api/values/5
     [Authorize]
-    [HttpDelete("vaults/vk/{id}")]
-    public string Put(int id, intId)
+    [HttpPut("vaults/vk/{id}")]
+    public string Put(int id, [FromBody] VaultKeep nData)
     {
       try
       {
-        DataModel data = new DataModel();
-        data.IntIdAlt = id; //vault
-        // data.UserId = HttpContext.User.FindFirstValue("Id");
-        data.IntId = intId; //keep
-        return _Repo.RemoveFromVault(data);
-
+        nData.VaultId = id;
+        return _Repo.RemoveFromVault(nData);
       }
       catch (Exception e)
       {
@@ -117,7 +113,6 @@ namespace keepr.Controllers
       try
       {
         return _Repo.DeleteVault(id);
-
       }
       catch (Exception e)
       {

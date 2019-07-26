@@ -66,15 +66,15 @@ namespace keepr.Repositories
 
       // return data;
     }
-    public Keep Like(bool isLike)
+    public Keep Like(Keep data)
     {
-      data.likeValue = 0
+     
 
       string query = @"
             UPDATE keeps 
             SET
-            views = views + @likeValue
-            WHERE id = @Id AND userId =  @UserId;
+            views = views + @Views
+            WHERE id = @Id;
             ";
 
       _db.QueryFirstOrDefault<Keep>(query, data);

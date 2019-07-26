@@ -22,7 +22,7 @@ namespace keepr.Controllers
       _Repo = Repo;
     }
     // GET api/values
-    [Authorize]
+    // [Authorize]
     [HttpGet]
     public ActionResult<IEnumerable<Keep>> Get()
     {
@@ -89,13 +89,19 @@ namespace keepr.Controllers
     // PUT api/values/5
     [Authorize]
     [HttpPut("{id}/like")]
-    public ActionResult<T> Put(int id,bool isLike)
+    public ActionResult<Keep> Put(int id, [FromBody] DataModel Data)
     {
       try
       {
-        if(isLike) return Ok(_Repo.Like(true));
-        if(!isLike) return Ok(_Repo.Like(false));
-return BadRequest("no like action");
+        Keep data = new Keep(){};
+        if(Data.Bool == false){
+     data.Views = -1;
+     } else {
+       data.Views = 1;
+     }
+     data.UserId = HttpContext.User.FindFirstValue("Id");
+     data.Id = id;
+       return Ok(_Repo.Like(data));
       }
       catch (Exception e)
       {
