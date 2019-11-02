@@ -31,7 +31,10 @@
       to="/createvault"
       style="margin-right: -4vw;"
     >Create Vault</router-link>
-    <img src="http://wac.450f.edgecastcdn.net/80450F/loudwire.com/files/2015/06/Disturbed-Immortalized.jpg" alt="">
+    <img
+      src="http://wac.450f.edgecastcdn.net/80450F/loudwire.com/files/2015/06/Disturbed-Immortalized.jpg"
+      alt
+    />
     <div
       style="height: auto; margin: 25px;"
       class="card card-803"
@@ -42,9 +45,9 @@
       <h6 class="mix-a-lot wrapped-text">Post By:{{post.userId}}</h6>
       <div class="card-body card-body-with-image">
         <p class="body-color card-text wrapped-text">{{post.img}}</p>
-        <!-- <div v-if="post.img" :style="{ 'background-image': 'url(' + post.img + ')' }" class="Display-Images card-body-img"> -->
-          <img v-if="post.img" :src="post.img" alt="Card image" />
-        <!-- </div> -->
+        <div v-if="post.img" :style="{ 'background-image': 'url(' + post.img + ')' }" class="Display-Images card-body-img">
+        <!-- <img v-if="post.img" :src="post.img" alt="Card image" /> -->
+        </div>
       </div>
 
       <div class="card-body">
@@ -154,7 +157,7 @@ export default {
       this.$store.dispatch("addVaultKeep", data);
     }
     // logout() {
-      //   this.$store.dispatch("logout");
+    //   this.$store.dispatch("logout");
     // }
   },
   components: {
@@ -220,28 +223,29 @@ export default {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  height: 45vh;/*this is limiting immage div height */
+  /* height: 45vh;  this is limiting image div height */
 }
 
-.card-body-img {
- /* // display: unset;
-  height: auto;
+/* .card-body-img { */
+  /* // display: unset;
+  height: auto;             This is currently unused!
   width: auto; */
-  height: 50vw;
-  width: 100%; 
-}
+  /* height: 50vw;
+  width: 100%;
+} */
 
 .Display-Images {
-   background-position: center;
-   background-size: cover;
-   height: 50vw;
- }
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 50vh;
+}
 
 img {
-  /* max-width: 100%; */
-  height: 100%;
-  /* height: auto; */
-  /* width: auto; */
+  max-width: 100%;
+  max-height: 50vh;
+  height: auto;
+  width: auto;
   /* margin: 20px; */
 }
 
@@ -250,7 +254,7 @@ img {
   background-color: rgba(85, 1, 163, 0.226);
 }
 
- .wrapped-text {
+.wrapped-text {
   white-space: nowrap;
   height: 1rem;
   overflow: hidden;
