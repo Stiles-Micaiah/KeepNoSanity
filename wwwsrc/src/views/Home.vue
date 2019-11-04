@@ -25,16 +25,12 @@
       ></textarea>
       <button class="btn btn-info btn-sm" type="submit">Post</button>
     </form>
-    <router-link
-      v-if="user.id"
-      class="btn btn-primary float-left"
-      to="/createvault"
-      style="margin-right: -4vw;"
-    >Create Vault</router-link>
-    <img
+
+    <!-- <img
       src="http://wac.450f.edgecastcdn.net/80450F/loudwire.com/files/2015/06/Disturbed-Immortalized.jpg"
       alt
-    />
+    />-->
+
     <div
       style="height: auto; margin: 25px;"
       class="card card-803"
@@ -45,12 +41,12 @@
       <h6 class="mix-a-lot wrapped-text">Post By:{{post.userId}}</h6>
       <div class="card-body card-body-with-image">
         <p class="body-color card-text wrapped-text">{{post.img}}</p>
-        <div v-if="post.img" :style="{ 'background-image': 'url(' + post.img + ')' }" class="Display-Images card-body-img">
-        <!-- <img v-if="post.img" :src="post.img" alt="Card image" /> -->
-        </div>
+        <!-- <div v-if="post.img" :style="{ 'background-image': 'url(' + post.img + ')' }" class="Display-Images card-body-img"> -->
+        <img v-if="post.img" :src="post.img" alt="Card image" />
+        <!-- </div> -->
       </div>
-
-      <div class="card-body">
+      <!-- Buttons -->
+      <!-- <div class="card-body">
         <div v-if="user.id != post.userId" class="justify-content-between">
           <button @click="like(post.id, true)" class="btn btn-info btn-sm">Like</button>
           {{post.views}}
@@ -81,7 +77,8 @@
             </div>
           </div>
         </div>
-      </div>
+      </div>-->
+      <!-- General use Footer -->
       <div
         style="-webkit-text-fill-color: blueviolet;"
         class="card-footer text-muted"
@@ -193,12 +190,17 @@ export default {
   margin: 5px;
   margin-right: auto;
   margin-left: auto;
-  width: 30vw !important;
   background-image: linear-gradient(
     to top right,
     rgba(195, 0, 255, 0.219),
     rgb(0, 255, 221, 0.219)
   ) !important;
+}
+
+@media screen and (min-width: 900px) {
+  .post-new {
+    width: 30vw !important;
+  }
 }
 
 .post-new > label {
@@ -216,21 +218,25 @@ export default {
   max-width: 100%;
   margin-right: auto !important;
   margin-left: auto !important;
-  width: 50%;
+}
+@media screen and (min-width: 900px) {
+  .card-803 {
+    width: 50%;
+  }
 }
 
-.card-body-with-image {
+/* .card-body-with-image {
   display: flex;
   justify-content: center;
-  flex-direction: column;
-  /* height: 45vh;  this is limiting image div height */
-}
+  flex-direction: column; */
+/* height: 45vh;  this is limiting image div height */
+/* } */
 
 /* .card-body-img { */
-  /* // display: unset;
+/* // display: unset;
   height: auto;             This is currently unused!
   width: auto; */
-  /* height: 50vw;
+/* height: 50vw;
   width: 100%;
 } */
 
