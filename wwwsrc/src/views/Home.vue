@@ -256,7 +256,7 @@ img {
 
 .wrapped-text {
   white-space: nowrap;
-  height: 1rem;
+  /* height: 1rem; */
   overflow: hidden;
   text-overflow: ellipsis;
 }
